@@ -6,8 +6,11 @@ try:
 except ValueError:
     print("Error loading JSON")
 
-#Prints 1 Nephi 3:7
-book = bom["books"][0]
-chapter = book["chapters"][2] 
-verse = ["verses"][6]["text"]
-print(verse)
+def DisplayBoM(bookNum, chapterNum, verseNum):
+    #Prints 1 Nephi 3:7
+    book = bom["books"][bookNum]
+    chapter = book["chapters"][chapterNum - 1] 
+    verse = chapter["verses"][verseNum - 1]["text"]
+    print(verse)
+
+DisplayBoM(0, 3, 7)
