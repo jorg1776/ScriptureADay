@@ -1,4 +1,7 @@
 import json
+import mysql.connector
+
+scripturesDB = mysql.connector.connect(user='root')
 
 try:
     with open('Scriptures/book-of-mormon.json', 'r') as file:
@@ -14,3 +17,4 @@ def DisplayBoM(bookNum, chapterNum, verseNum):
     print(verse)
 
 DisplayBoM(0, 3, 7)
+
