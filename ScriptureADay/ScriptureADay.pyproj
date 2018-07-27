@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>99af19e5-8d2b-4a57-ba7c-e9c468e62764</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>ScriptureADay.py</StartupFile>
+    <StartupFile>main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -28,7 +28,7 @@
     <Compile Include="databaseconfig.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ScriptureADay.py" />
+    <Compile Include="main.py" />
     <Compile Include="__init__.py">
       <SubType>Code</SubType>
     </Compile>
