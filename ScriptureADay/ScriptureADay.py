@@ -1,7 +1,14 @@
 import json
 import mysql.connector
+import databaseconfig as dbconfig
 
-scripturesDB = mysql.connector.connect(user='root')
+try:
+    connection = mysql.connector.connect(
+        user=dbconfig.mysql['user'], password=dbconfig.mysql['password'], 
+        host=dbconfig.mysql['host'], database=dbconfig.mysql['database'])
+except InterfaceError:
+    print("Could not connect to database")
+
 
 try:
     with open('Scriptures/book-of-mormon.json', 'r') as file:
@@ -18,3 +25,4 @@ def DisplayBoM(bookNum, chapterNum, verseNum):
 
 DisplayBoM(0, 3, 7)
 
+#connection.close()
