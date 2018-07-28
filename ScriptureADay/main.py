@@ -24,6 +24,13 @@ def GetBookName(bookID, dbcursor):
     bookName = result[0]
     return bookName
 
+def GetSubBookNumber(subBook, bookID, dbcursor):
+    sql = "SELECT subBookID FROM subbooks WHERE bookID = " + str(bookID) + " AND subBookName = '" + subBook + "'"
+    dbcursor.execute(sql)
+    result = dbcursor.fetchone()
+    subBookNum = result[0]
+    return subBookNum
+
 try:
     connection = mysql.connector.connect(
         user=dbconfig.mysql['user'], password=dbconfig.mysql['password'], 
@@ -35,6 +42,10 @@ dbcursor = connection.cursor()
 randomScripture = GetRandomScriptureFromDB(dbcursor)
 bookID = randomScripture[0]
 bookName = GetBookName(bookID, dbcursor)
+subBook = randomScripture[1]
+subBookNum = GetSubBookNumber(subBook, bookID, dbcursor)
+chapter = randomScripture[2]
+verse = randomScripture[3]
 
 try:
     with open('Scriptures/book-of-mormon.json', 'r') as file:
