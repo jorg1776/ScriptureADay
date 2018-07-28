@@ -3,14 +3,6 @@ import mysql.connector
 import databaseconfig as dbconfig
 from win10toast import ToastNotifier
 
-#def DisplayBoM(bookNum, chapterNum, verseNum):
-#    #Prints 1 Nephi 3:7
-#    book = bom["books"][bookNum]
-#    chapter = book["chapters"][chapterNum - 1] 
-#    verse = chapter["verses"][verseNum - 1]["text"]
-#    notification = ToastNotifier()
-#    notification.show_toast("1 Nephi 3:7", verse)
-
 def GetRandomScriptureFromDB(dbcursor):
     sql = "SELECT * FROM scriptures ORDER BY RAND() LIMIT 1"
     dbcursor.execute(sql)
@@ -31,6 +23,14 @@ def GetSubBookNumber(subBook, bookID, dbcursor):
     subBookNum = result[0]
     return subBookNum
 
+def DisplayScripture(bookFile, subBookNum, chapter, verseNum):
+    book = bookFile["books"][subBookNum]
+    chapter = book["chapters"][chapter - 1]
+    reference = chapter["verses"][verseNum - 1]["reference"]
+    verse = chapter["verses"][verseNum - 1]["text"]
+    notification = ToastNotifier()
+    notification.show_toast(reference, verse)
+
 try:
     connection = mysql.connector.connect(
         user=dbconfig.mysql['user'], password=dbconfig.mysql['password'], 
@@ -40,18 +40,20 @@ except InterfaceError:
 
 dbcursor = connection.cursor()
 randomScripture = GetRandomScriptureFromDB(dbcursor)
-bookID = randomScripture[0]
-bookName = GetBookName(bookID, dbcursor)
+bookNum = randomScripture[0]
+bookName = GetBookName(bookNum, dbcursor)
 subBook = randomScripture[1]
-subBookNum = GetSubBookNumber(subBook, bookID, dbcursor)
+subBookNum = GetSubBookNumber(subBook, bookNum, dbcursor)
 chapter = randomScripture[2]
-verse = randomScripture[3]
+verseNum = randomScripture[3]
 
+jsonPath = "Scriptures/" + bookName + ".json"
 try:
-    with open('Scriptures/book-of-mormon.json', 'r') as file:
-        bom = json.load(file) 
+    with open(jsonPath, 'r') as file:
+        bookFile = json.load(file) 
 except ValueError:
     print("Error loading JSON")
 
+DisplayScripture(bookFile, subBookNum, chapter, verseNum)
 
 connection.close()
